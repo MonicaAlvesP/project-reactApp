@@ -2,35 +2,63 @@ import React, { Component } from 'react';
 import './App.css';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    // o blind do this é necessário para que o this seja acessível no método handlePClick
-    this.handlePClick = this.handlePClick.bind(this);
+  // podemos instanciar a classe sem o construtor, mas é uma boa prática utilizá-lo
+  //chama-se public class fields
+  // e com isso não precisamos usar o bind
+  // constructor(props) {
+  //   super(props);
+  //   // Vinculando 'this' ao método handlePClick para torná-lo acessível
+  //   this.handlePClick = this.handlePClick.bind(this);
+  // }
+  //   this.state = {
+  //     name: "Caio Vinícius",
+  //     years: 10,
+  //     city: 'São Paulo',
+  //     // Alterando o valor da chave 'fruit' para 'Morango' quando o botão for clicado
+  //     fruit: 'Banana',
+  //     counter: 0
+  //   };
 
-    this.state = {
+    state = {
       name: "Caio Vinícius",
       years: 10,
       city: 'São Paulo',
+      // Alterando o valor da chave 'fruit' para 'Morango' quando o botão for clicado
+      fruit: 'Banana',
+      counter: 0
     };
-  }
 
-  // metodo de classe, que será chamado ao clicar no parágrafo
-  handlePClick() {
-    // ao clicar no parágrafo, o valor da chave city do objeto state será exibido no console
-    // para que o this seja acessivel, é necessário fazer o bind do this no construtor
+  // Método de classe que será chamado quando o parágrafo for clicado
+  handlePClick = () => {
+    // Quando o parágrafo for clicado, o valor da chave 'city' no objeto de estado será registrado no console
+    // Para acessar 'this', precisamos vinculá-lo no construtor
     const { city } = this.state;
     console.log(city);
-    console.log('Clicked on P');
+    console.log('Clicado no P');
+    // Alterando o valor da chave 'fruit' no objeto de estado
+    this.setState({ fruit: 'Morango' });
+  }
+
+  handleAClick = (event) => {
+    // Prevenindo o comportamento padrão do evento, que é recarregar a página
+    event.preventDefault();
+    // Chamando o método setState para alterar o valor do estado 'counter'
+    const { counter } = this.state;
+    // Como setState é assíncrono, para acessar o valor atualizado do estado, precisamos passar uma função de retorno de chamada
+    this.setState({ counter: counter + 1 });
   }
 
   render() {
-    // desestruturação de objeto, para acessar o valor das chaves do objeto state
-    const { name, years } = this.state;
+    // Desestruturando o objeto de estado para acessar os valores de suas chaves
+    const { name, years, fruit, counter } = this.state;
 
     return (
       <div>
         <h1>Olá, tudo certo?</h1>
         <p onClick={this.handlePClick}>Hoje, 06/07... Meu filho {name} está iniciando o curso de Python do Curso em Vídeo.</p>
+        <p onClick={this.handleAClick}>{counter}</p>
+        <p>sua fruta favorita é {fruit}</p> {/* Exibindo o valor da chave 'fruit' no objeto de estado */}
+        <a onClick={this.handleAClick} href='https://www.google.com/'>Aqui é um link</a>
         <button onClick={() => alert(`Ele tem somente ${years} anos!`)}>Clique aqui e descubra a idade dele</button>
       </div>
     );
