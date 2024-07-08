@@ -2,36 +2,65 @@ import React, { Component } from 'react';
 import './App.css';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    // o blind do this é necessário para que o this seja acessível no método handlePClick
-    this.handlePClick = this.handlePClick.bind(this);
 
-    this.state = {
-      name: "Caio Vinícius",
-      years: 10,
-      city: 'São Paulo',
-    };
+  state = {
+    count: 0,
+    posts: [
+      {
+        id: 1,
+        title: "Titulo do id 1",
+        body: "Corpo do id 1"
+      },
+
+      {
+        id: 2,
+        title: "Titulo do id 2",
+        body: "Corpo do id 2"
+      },
+
+      {
+        id: 3,
+        title: "Titulo do id 3",
+        body: "Corpo do id 3"
+      }
+    ]
   }
 
-  // metodo de classe, que será chamado ao clicar no parágrafo
-  handlePClick() {
-    // ao clicar no parágrafo, o valor da chave city do objeto state será exibido no console
-    // para que o this seja acessivel, é necessário fazer o bind do this no construtor
-    const { city } = this.state;
-    console.log(city);
-    console.log('Clicked on P');
+  timeoutUpdate = null;
+
+  componentDidMount() {
+    this.handleTimeout();
+  }
+
+  componentDidUpdate() {
+    this.handleTimeout();
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timeoutUpdate)
+  }
+
+  handleTimeout = () => {
+    const { posts, count } = this.state;
+    posts[0].title = "Título id: 1 alterado"
+
+    this.timeoutUpdate = setTimeout(() => {
+      this.setState({ posts, count: count + 1 })
+    }, 3000);
   }
 
   render() {
-    // desestruturação de objeto, para acessar o valor das chaves do objeto state
-    const { name, years } = this.state;
+    const { posts, count } = this.state;
 
     return (
-      <div>
-        <h1>Olá, tudo certo?</h1>
-        <p onClick={this.handlePClick}>Hoje, 06/07... Meu filho {name} está iniciando o curso de Python do Curso em Vídeo.</p>
-        <button onClick={() => alert(`Ele tem somente ${years} anos!`)}>Clique aqui e descubra a idade dele</button>
+      <div className="App">
+        <h3>{count}</h3>
+        {posts.map(post => (
+          <div key={post.id}>
+            <h1>{post.title}</h1>
+            <p>{post.body}</p>
+          </div>
+        ))}
       </div>
     );
   }
