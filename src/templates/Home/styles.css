@@ -1,0 +1,17 @@
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: #eee;
+  padding: 2rem;
+}
+
+.btn-container {
+  min-width: 60px;
+  display: flex;
+  align-items: flex-end;
+}
