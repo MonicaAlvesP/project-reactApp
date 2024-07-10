@@ -10,6 +10,11 @@ body {
   padding: 2rem;
 }
 
+.container-input {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
 .btn-container {
   min-width: 60px;
   display: flex;
